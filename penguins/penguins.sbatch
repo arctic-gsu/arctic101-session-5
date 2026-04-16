@@ -16,6 +16,9 @@
 # TODO 1: load the conda module -- compute nodes start with a clean environment
 #         and have no `conda` on PATH by default.
 
+# Enable "conda activate" in this shell (module load alone is not enough).
+source $(conda info --base)/etc/profile.d/conda.sh
+
 # TODO 2: activate your Session 5 conda environment so `python` resolves to the
 #         interpreter that has pandas installed.
 
