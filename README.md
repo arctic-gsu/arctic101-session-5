@@ -17,13 +17,14 @@ analysis on the Palmer Penguins dataset.
 - Sessions 1–4 complete (terminal, Git, SSH to ARCTIC, environment + data setup)
 - A conda environment at `/userapp/condaenv/<campusid>_101` with Python 3.12
   and `pandas` installed
-- Replace `<campusid>` everywhere with your own GSU CampusID
+- Your Slurm allocation name (find it in Elpis under your account)
+- Replace `<campusid>` and `<account>` everywhere with your own values
 
 ## Repo layout
 
 ```
 .
-├── hello/              # Exercise 1: complete, runnable hello-world job
+├── hello/              # Exercise 1: hello-world job (fill in account, then submit)
 │   ├── hello.sbatch
 │   └── hello.py
 └── penguins/           # Exercise 2: partial template you fill in
@@ -45,7 +46,8 @@ Then for each exercise:
 
 ```
 cd hello
-sbatch hello.sbatch        # submit as-is
+# replace <account> in hello.sbatch with your allocation (find it in Elpis)
+sbatch hello.sbatch
 ```
 
 ```

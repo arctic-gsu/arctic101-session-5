@@ -1,5 +1,6 @@
 #!/bin/bash
 #SBATCH --partition=qCPU24
+#SBATCH --account=<account>       # find your allocation name in Elpis
 #SBATCH --time=00:10:00
 #SBATCH --mem=2G
 #SBATCH --cpus-per-task=1
