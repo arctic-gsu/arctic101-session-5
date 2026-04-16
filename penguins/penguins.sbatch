@@ -9,7 +9,7 @@
 #SBATCH --error=penguins_%j.err
 
 # ----------------------------------------------------------------------------
-# Fill in the three steps below. Replace <campusid> with your GSU CampusID.
+# Fill in the four steps below. Replace <campusid> with your GSU CampusID.
 # Submit with:  sbatch penguins.sbatch
 # ----------------------------------------------------------------------------
 
@@ -19,6 +19,10 @@
 # TODO 2: activate your Session 5 conda environment so `python` resolves to the
 #         interpreter that has pandas installed.
 
-# TODO 3: run the analysis script, passing the path to penguins.csv on scratch
+# TODO 3: download the Palmer Penguins dataset into your scratch space --
+#         $SCRATCH is available inside the job and points to your scratch directory.
+#         URL: https://gist.githubusercontent.com/slopp/ce3b90b9168f2f921784de84fa445651/raw/penguins.csv
+
+# TODO 4: run the analysis script, passing the path to penguins.csv on scratch
 #         as a command-line argument (analyze.py reads the path from sys.argv[1]
 #         and writes results.txt to the current directory).

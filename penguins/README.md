@@ -15,22 +15,19 @@ writes the result to a text file.
 
 ## Where the data comes from and where results go
 
-`penguins.csv` is **not** in this repo. Before submitting the job, you
-download it from a public gist into your scratch space:
+`penguins.csv` is **not** in this repo. One of the TODOs in the sbatch script
+has you `curl` it from a public gist into `$SCRATCH` as part of the job. The
+`$SCRATCH` environment variable is available on compute nodes and points to
+your scratch directory.
 
-```
-curl -o $SCRATCH/penguins.csv \
-  https://gist.githubusercontent.com/slopp/ce3b90b9168f2f921784de84fa445651/raw/penguins.csv
-```
+The sbatch script then passes `$SCRATCH/penguins.csv` as a command-line
+argument to `analyze.py`, which reads it directly. Results (`results.txt`) are
+written to the current directory — the same place Slurm puts the `.out` and
+`.err` files.
 
-The sbatch script passes `$SCRATCH/penguins.csv` as a command-line argument to
-`analyze.py`, which reads it directly. Results (`results.txt`) are written to
-the current directory — the same place Slurm puts the `.out` and `.err` files.
+## Why download data inside the job?
 
-## Why pass `$SCRATCH` as an argument?
-
-The `$SCRATCH` environment variable is set on the login node and propagated to
-compute nodes by Slurm. Passing it explicitly as a CLI argument to
-`analyze.py` (rather than hardcoding a path or reading the variable inside
-Python) makes the data dependency visible in the sbatch script — anyone reading
-the script can see exactly which file the analysis receives.
+Downloading data as an explicit step in the sbatch script makes the job
+self-contained — anyone reading the script can see exactly where the input
+comes from. It also demonstrates that compute nodes on ARCTIC have internet
+access, which is useful for jobs that pull data from APIs or remote storage.

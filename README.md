@@ -52,11 +52,7 @@ sbatch hello.sbatch
 
 ```
 cd ../penguins
-# download the Palmer Penguins dataset to your scratch space
-curl -o $SCRATCH/penguins.csv \
-  https://gist.githubusercontent.com/slopp/ce3b90b9168f2f921784de84fa445651/raw/penguins.csv
-
-# edit penguins.sbatch and fill in the TODOs (substitute <campusid>)
+# edit penguins.sbatch — fill in <account>, <campusid>, and the 4 TODOs
 sbatch penguins.sbatch
 ```
 
