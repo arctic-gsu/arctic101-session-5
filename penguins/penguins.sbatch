@@ -21,9 +21,11 @@ wget -nc -P /scratch/users/$USER/penguins https://gist.githubusercontent.com/slo
 # Submit with:  sbatch penguins.sbatch
 # ----------------------------------------------------------------------------
 
-# TODO 1: cd into $SCRATCH -- this is your per-job ephemeral workspace. Any
-#         files your job writes here land inside $SCRATCH and are cleaned up
-#         automatically when the job ends, so your home directory stays tidy.
+# TODO 1: create and cd into $SCRATCH -- this is your per-job ephemeral
+#         workspace. Slurm sets the $SCRATCH env var but does NOT create the
+#         directory; a bare `cd $SCRATCH` will fail. Use `mkdir -p` so it
+#         works even on first run, then cd in so the files your job writes
+#         land inside $SCRATCH.
 
 # TODO 2: load the miniconda3 module -- compute nodes start with a clean
 #         environment and have no `conda` on PATH by default.
@@ -39,7 +41,9 @@ source $(conda info --base)/etc/profile.d/conda.sh
 #         analyze.py will write results.txt to the current directory, which
 #         (thanks to TODO 1) is $SCRATCH.
 
-# TODO 5: copy results.txt out of $SCRATCH before the job ends and scratch
-#         disappears. Suggested destination (tagged with the job id so
+# TODO 5: copy results.txt out of $SCRATCH to a durable location before
+#         cleaning up. Suggested destination (tagged with the job id so
 #         multiple runs don't overwrite each other):
 #         ~/arctic101-session-5/penguins/results_$SLURM_JOB_ID.txt
+#         Then `rm -rf $SCRATCH` to release the space -- scratch purges run
+#         on a schedule, not per-job, so explicit cleanup is the norm.

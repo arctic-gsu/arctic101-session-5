@@ -26,12 +26,14 @@ when the job ends, so anything cached there disappears before the next run
 could reuse it. `/scratch/users/$USER` persists across jobs, so it's the
 right home for cached inputs.
 
-The job itself does all its file IO inside `$SCRATCH` — the script `cd`s
-there, runs `analyze.py` (which writes `results.txt` to the current
-directory), and then copies `results.txt` back to
-`~/arctic101-session-5/penguins/results_<jobid>.txt` so it survives the
-job. The general pattern is **work in scratch, copy back when finished**;
-`$SCRATCH` itself is cleaned up automatically at job end.
+The job itself does all its file IO inside `$SCRATCH` — the script creates
+and `cd`s into it (Slurm sets the env var but doesn't create the directory
+for you, so `mkdir -p $SCRATCH` is required), runs `analyze.py` (which
+writes `results.txt` to the current directory), copies `results.txt` back
+to `~/arctic101-session-5/penguins/results_<jobid>.txt` so it survives the
+job, and finally `rm -rf $SCRATCH` to clean up. The general pattern is
+**work in scratch, copy back when finished, then clean up**; scratch
+purges run on a schedule, not per-job, so explicit cleanup is the norm.
 
 ## Bonus: parallelize with a Slurm job array
 
