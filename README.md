@@ -37,7 +37,7 @@ analysis on the Palmer Penguins dataset.
 On an ARCTIC login node:
 
 ```
-git clone https://github.com/arctic-gsu/arctic101-session-5.git
+git clone git@github.com:arctic-gsu/arctic101-session-5.git
 cd arctic101-session-5
 ```
 
