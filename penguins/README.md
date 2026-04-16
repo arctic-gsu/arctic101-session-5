@@ -15,19 +15,40 @@ writes the result to a text file.
 
 ## Where the data comes from and where results go
 
-`penguins.csv` is **not** in this repo. One of the TODOs in the sbatch script
-has you `curl` it from a public gist into `$SCRATCH` as part of the job. The
-`$SCRATCH` environment variable is available on compute nodes and points to
-your scratch directory.
+`penguins.csv` is **not** in this repo. The sbatch script downloads it once
+into `/scratch/users/$USER/penguins/` using `wget -nc` (no-clobber). On the
+first run you'll see wget fetching the file; on every rerun wget finds it
+already there and skips the download. That keeps the exercise kind to the
+network and fast to iterate on.
 
-The sbatch script then passes `$SCRATCH/penguins.csv` as a command-line
-argument to `analyze.py`, which reads it directly. Results (`results.txt`) are
-written to the current directory — the same place Slurm puts the `.out` and
-`.err` files.
+**Why not `$SCRATCH`?** On ARCTIC, `$SCRATCH` is allocated per job and wiped
+when the job ends, so anything cached there disappears before the next run
+could reuse it. `/scratch/users/$USER` persists across jobs, so it's the
+right home for cached inputs.
 
-## Why download data inside the job?
+The job itself does all its file IO inside `$SCRATCH` — the script `cd`s
+there, runs `analyze.py` (which writes `results.txt` to the current
+directory), and then copies `results.txt` back to
+`~/arctic101-session-5/penguins/results_<jobid>.txt` so it survives the
+job. The general pattern is **work in scratch, copy back when finished**;
+`$SCRATCH` itself is cleaned up automatically at job end.
 
-Downloading data as an explicit step in the sbatch script makes the job
-self-contained — anyone reading the script can see exactly where the input
-comes from. It also demonstrates that compute nodes on ARCTIC have internet
-access, which is useful for jobs that pull data from APIs or remote storage.
+## Bonus: parallelize with a Slurm job array
+
+Right now the job processes all three penguin species in a single Python
+process. With only ~344 rows that's fast, but the same pattern scales poorly
+once the dataset or the per-group work grows. As a stretch exercise, rewrite
+the workload as a Slurm **job array** with one task per species.
+
+Hints:
+- `#SBATCH --array=0-2` launches three tasks; each sees a different
+  `$SLURM_ARRAY_TASK_ID` (0, 1, or 2).
+- Map the index to a species name (bash array or `case`) and pass it to a
+  modified `analyze.py` that filters to that species before aggregating.
+- Have each task write `results_<species>.txt` inside `$SCRATCH` and copy it
+  back with `$SLURM_ARRAY_JOB_ID` + `$SLURM_ARRAY_TASK_ID` in the name.
+  Combine them afterward with a short follow-up step (e.g. `cat results_*.txt`).
+- Use `%A_%a` in `--output` so each array task gets its own log file:
+  `#SBATCH --output=penguins_%A_%a.out`.
+
+There's no answer key for this one — compare notes with a teammate.
