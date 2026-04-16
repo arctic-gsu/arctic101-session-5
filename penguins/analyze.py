@@ -1,14 +1,15 @@
 """Palmer Penguins summary for ARCTIC 101 Session 5.
 
-Reads ./penguins.csv (staged into the job working directory by the sbatch
-script) and writes a human-readable per-species summary to ./results.txt.
+Reads penguins.csv from the path given as a command-line argument (typically
+$SCRATCH/penguins.csv) and writes a per-species summary to ./results.txt.
 """
 
+import sys
 from datetime import datetime
 
 import pandas as pd
 
-INPUT_PATH = "./penguins.csv"
+INPUT_PATH = sys.argv[1]
 OUTPUT_PATH = "./results.txt"
 
 NUMERIC_COLS = [

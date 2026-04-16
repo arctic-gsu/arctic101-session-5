@@ -10,14 +10,13 @@ analysis on the Palmer Penguins dataset.
 - Anatomy of a Slurm batch script (`#SBATCH` directives, body)
 - Submitting jobs with `sbatch` and inspecting them with `squeue` / `sacct`
 - Loading software with `module` and activating a conda environment inside a job
-- Staging input data into the job's working directory and copying results back
+- Reading input data from scratch (`$SCRATCH`) inside a batch job
 
 ## Prerequisites
 
 - Sessions 1–4 complete (terminal, Git, SSH to ARCTIC, environment + data setup)
 - A conda environment at `/userapp/condaenv/<campusid>_101` with Python 3.12
   and `pandas` installed
-- The Palmer Penguins dataset at `/scratch/users/<campusid>/penguins.csv`
 - Replace `<campusid>` everywhere with your own GSU CampusID
 
 ## Repo layout
@@ -51,6 +50,10 @@ sbatch hello.sbatch        # submit as-is
 
 ```
 cd ../penguins
+# download the Palmer Penguins dataset to your scratch space
+curl -o $SCRATCH/penguins.csv \
+  https://gist.githubusercontent.com/slopp/ce3b90b9168f2f921784de84fa445651/raw/penguins.csv
+
 # edit penguins.sbatch and fill in the TODOs (substitute <campusid>)
 sbatch penguins.sbatch
 ```
