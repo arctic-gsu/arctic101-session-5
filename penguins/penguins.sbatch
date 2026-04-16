@@ -21,7 +21,7 @@
 #         do this BEFORE loading miniconda3 to avoid a library conflict with curl.
 #         URL: https://gist.githubusercontent.com/slopp/ce3b90b9168f2f921784de84fa445651/raw/penguins.csv
 
-# TODO 3: load the conda module -- compute nodes start with a clean environment
+# TODO 3: load the miniconda3 module -- compute nodes start with a clean environment
 #         and have no `conda` on PATH by default.
 
 # Enable "conda activate" in this shell (module load alone is not enough).

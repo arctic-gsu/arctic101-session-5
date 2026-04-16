@@ -6,3 +6,4 @@ __pycache__/
 slurm-*.out
 results.txt
 .DS_Store
+penguins/penguins.sbatch.ans
