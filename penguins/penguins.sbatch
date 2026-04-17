@@ -6,6 +6,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --job-name=penguins_analysis
 #SBATCH --output=penguins_%j.out
+#SBATCH --error=penguins_%j.err
 
 # ----------------------------------------------------------------------------
 # Download the Palmer Penguins dataset into your persistent per-user scratch.
