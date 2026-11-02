@@ -35,6 +35,25 @@ job, and finally `rm -rf $SCRATCH` to clean up. The general pattern is
 **work in scratch, copy back when finished, then clean up**; scratch
 purges run on a schedule, not per-job, so explicit cleanup is the norm.
 
+## ARCTIC Onboarding version
+
+The single-session ARCTIC Onboarding workshop uses `penguins_onboarding.sbatch`
+instead of `penguins.sbatch`. It runs the same `analyze.py`, with three
+differences:
+
+- It activates the shared, pre-built environment `/userapp/condaenv/onboarding`,
+  so you don't need your own conda environment yet.
+- TODO 1 also copies `analyze.py` into `$SCRATCH` (the "copy input to scratch"
+  step), so the whole job runs inside scratch.
+- Results are copied back to the folder you submitted from
+  (`$SLURM_SUBMIT_DIR/results_<jobid>.txt`).
+
+```
+cd penguins
+# fill in <account> and the 5 TODOs
+sbatch penguins_onboarding.sbatch
+```
+
 ## Bonus: parallelize with a Slurm job array
 
 Right now the job processes all three penguin species in a single Python
