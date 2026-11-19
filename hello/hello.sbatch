@@ -13,4 +13,5 @@ echo "Date:        $(date)"
 echo "Working dir: $(pwd)"
 echo
 
-python hello.py
+module load python/3.13.3
+python3 hello.py
